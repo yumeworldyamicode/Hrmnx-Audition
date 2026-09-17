@@ -5,3 +5,8 @@
 hr {
   width: 50%;
 }
+
+.narrow-text {
+  max-width: 500px; 
+  width: 100%;   
+}
