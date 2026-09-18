@@ -20,6 +20,7 @@ p {
 .header_nav_desktop_au ul {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -28,6 +29,7 @@ p {
 
 .nav_item_11 {
   background-color: #FFFF00; 
+  font-weight: bold;
   font-family: "Inter", sans-serif;
   color: #000000;
   border-radius: 9999px;
@@ -38,6 +40,7 @@ p {
 
 .nav_item_12 {
   background-color: #FFFF00; 
+  font-weight: bold;
   font-family: "Inter", sans-serif;
   color: #000000;
   border-radius: 9999px;
@@ -48,6 +51,7 @@ p {
 
 .nav_item_13 {
   background-color: #FFFF00; 
+  font-weight: bold;
   font-family: "Inter", sans-serif;
   color: #000000;
   border-radius: 9999px;
@@ -58,6 +62,7 @@ p {
 
 .nav_item_14 {
   background-color: #FFFF00; 
+  font-weight: bold;
   font-family: "Inter", sans-serif;
   color: #000000;
   border-radius: 9999px;
