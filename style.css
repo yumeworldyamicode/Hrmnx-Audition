@@ -16,3 +16,12 @@ p {
   width: 75%;   
   margin: 0 auto;
 }
+
+.header_nav_desktop_au ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  gap: 20px;
+}
