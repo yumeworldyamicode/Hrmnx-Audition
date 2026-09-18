@@ -25,3 +25,43 @@ p {
   margin: 0;
   gap: 20px;
 }
+
+.nav_item_11 {
+  background-color: #FFFF00; 
+  font-family: "Inter", sans-serif;
+  color: #000000;
+  border-radius: 9999px;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.nav_item_12 {
+  background-color: #FFFF00; 
+  font-family: "Inter", sans-serif;
+  color: #000000;
+  border-radius: 9999px;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.nav_item_13 {
+  background-color: #FFFF00; 
+  font-family: "Inter", sans-serif;
+  color: #000000;
+  border-radius: 9999px;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.nav_item_14 {
+  background-color: #FFFF00; 
+  font-family: "Inter", sans-serif;
+  color: #000000;
+  border-radius: 9999px;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+}
