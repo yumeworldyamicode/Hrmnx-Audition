@@ -3,6 +3,15 @@
   margin-bottom: 16px;
 }
 
+.element-class {
+    scrollbar-width: none;   
+    -ms-overflow-style: none;     
+}
+
+.element-class::-webkit-scrollbar {
+    display: none;            
+}
+
 .about_section_12 {
   font-size: 5.5rem; 
 }
