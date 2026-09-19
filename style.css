@@ -96,42 +96,56 @@ p {
   color: #ffffff;
 }
 
-/* Icons Grid alignment */
 .social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* Spacing between icons */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
-/* Icon Links Styling */
 .social-icons a {
-    color: #ffffff;
-    font-size: 24px; /* Icon Size */
-    width: 44px;    /* Perfect minimum size for mobile touch targets */
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: #333333;
-    transition: all 0.3s ease; /* Smooth hover transition */
-    text-decoration: none;
+  color: #ffffff;
+  font-size: 24px; 
+  width: 44px;   
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #333333;
+  transition: all 0.3s ease;
+  text-decoration: none;
 }
 
-/* Hover Effects (Brand Colors) */
 .social-icons a:hover {
-    transform: translateY(-3px); /* Gentle float effect */
+  transform: translateY(-3px);
 }
 
 .social-icons a[aria-label="Instagram"]:hover {
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
 
 .social-icons a[aria-label="TikTok"]:hover {
-    background-color: #010101;
-    box-shadow: 2px 2px 0px #fe2c55, -2px -2px 0px #25f4ee; /* TikTok's signature glitch shadow */
+  background-color: #010101;
+  box-shadow: 2px 2px 0px #fe2c55, -2px -2px 0px #25f4ee;
 }
 
 .social-icons a[aria-label="YouTube"]:hover {
-    background-color: #ff0000;
+  background-color: #ff0000;
+}
+
+label {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+input {
+  background-color: #FFFF00; 
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+  color: #000000;
+  border-radius: 9999px;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 2.5rem;
 }
