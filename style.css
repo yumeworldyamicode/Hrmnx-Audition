@@ -94,12 +94,4 @@ p {
 .header_announcement_marquee {
   background-color: #000000;
   color: #ffffff;
-  padding-right: 20px;
-  padding: 12px 0;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.header_announcement_marquee:hover {
-  animation-play-state: paused;
 }
