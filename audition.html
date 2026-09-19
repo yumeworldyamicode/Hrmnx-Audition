@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" style>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Audition Form - Hrmnx Entertainment</title>
+    <meta name="description" content="Audition at Hrmnx Entertainment and be the next superstar.">
+    <meta property="og:title" content="Hrmnx Audition">
+    <meta property="og:description" content="Audition at Hrmnx Entertainment, become the next superstar.">
+    <meta property="og:site_name" content="Hrmnx Audition">
+    <meta property="og:image" content="/images/public/main/ogimage.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hrmnx Audition">
+    <meta name="twitter:description" content="Audition at Hrmnx Entertainment, become the next superstar.">
+    <meta name="twitter:image" content="/images/public/main/ogimage.png">
+    <link rel="icon" href="https://yumeworldyamicode.github.io/Hrmnx-Audition/images/public/favicon/favicon_audition.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%; 
+        }
+
+        body {
+            background-color: #edede8;
+            font-family: "Inter", sans-serif;
+            
+            align-items: center;  
+            text-align: center;    
+        }
+    </style>
+  </head>
+  <body style>
+    <header class="header_au">
+      <div class="header_container_au">
+        <div class="header_logo_au">
+          <a href="/">
+            <img alt="AUDITION" width="50" style="color:transparent" src="https://yumeworldyamicode.github.io/Hrmnx-Audition/images/public/main/logo_au.png">
+          </a>
+        </div>
+        <div class="header_announcement_marquee">
+          <marquee behavior="scroll" direction="left"><mark>Auditions are OPEN. Producer contest is CLOSED</mark> · We are using this domain temporarily until we finish our set-up and buy a new domain for this section of Hrmnx Entertainment seperately. &nbsp;&nbsp;·&nbsp;&nbsp;<mark>Auditions are OPEN. Producer contest is CLOSED</mark> · We are using this domain temporarily until we finish our set-up and buy a new domain for this section of Hrmnx Entertainment seperately. &nbsp;&nbsp;·&nbsp;&nbsp;<mark>Auditions are OPEN. Producer contest is CLOSED</mark> · We are using this domain temporarily until we finish our set-up and buy a new domain for this section of Hrmnx Entertainment seperately. &nbsp;&nbsp;·&nbsp;&nbsp;<mark>Auditions are OPEN. Producer contest is CLOSED</mark> · We are using this domain temporarily until we finish our set-up and buy a new domain for this section of Hrmnx Entertainment seperately.</marquee>
+        </div>
+        <hr>
+      </div>
+    </header>
+    <div class="au_form">
+      <div class="form_question_1">
+        <h2>
+          WHAT IS YOUR
+          <br>
+          <mark>AGE</mark>?
+        </h2>
+        <div class="form_age_pick">
+          <label for="age">Enter your age (Minimum age is 10):</label>
+          <input type="number" id="age" name="age" min="10" max="120" step="1" required>
+        </div>
+        <div id="question-group-10-15" style="display: none; margin-top: 15px;">
+          <label for="q-younger">Next Question for ages 10-15:</label>
+          <input type="text" id="q-younger" name="q_younger">
+        </div>
+        <div id="question-group-16-plus" style="display: none; margin-top: 15px;">
+          <label for="q-older">Next Question for ages 16+:</label>
+          <input type="text" id="q-older" name="q_older">
+        </div>
+        <script>
+          const ageInput = document.getElementById('age');
+          const groupYounger = document.getElementById('question-group-10-15');
+          const groupOlder = document.getElementById('question-group-16-plus');
+
+          ageInput.addEventListener('input', function() {
+          const age = parseInt(this.value, 10);
+
+          groupYounger.style.display = 'none';
+          groupOlder.style.display = 'none';
+
+          if (age >= 10 && age <= 15) {
+            groupYounger.style.display = 'block';
+          } else if (age >= 16) {
+            groupOlder.style.display = 'block';
+            }
+          });
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
