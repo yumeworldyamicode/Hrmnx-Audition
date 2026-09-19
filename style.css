@@ -75,3 +75,18 @@ p {
   padding: 12px 24px;
   cursor: pointer;
 }
+
+.audition_section {
+  background-color: #000000
+  color: #ffffff
+}
+
+.producers_section {
+  background-color: #000000
+  color: #ffffff
+}
+
+.community_section {
+  background-color: #000000
+  color: #ffffff
+}
