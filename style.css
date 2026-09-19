@@ -149,3 +149,15 @@ input {
   cursor: pointer;
   font-size: 2.5rem;
 }
+
+select {
+  background-color: #FFFF00; 
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+  color: #000000;
+  border-radius: 9999px;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 2.5rem;
+}
