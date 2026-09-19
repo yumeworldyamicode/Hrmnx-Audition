@@ -155,9 +155,14 @@ select {
   font-weight: bold;
   font-family: "Inter", sans-serif;
   color: #000000;
-  border-radius: 9999px;
+  border-radius: 50px;
   border: none;
   padding: 12px 24px;
   cursor: pointer;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
+}
+
+option {
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
 }
