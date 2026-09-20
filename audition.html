@@ -109,11 +109,50 @@
         <hr>
         <div class="form_toi_pick">
           <label for="toi">Do you want to only be a trainee or also grow up and become an idol?</label>
-          <p>Please note that idoling works different at Hrmnx Entertainment. See the docs for more information.</p>
+          <p>
+            Please note that idoling works different at Hrmnx Entertainment. See the docs for more information.
+            <span class="tooltip-container">
+              <sup>?</sup>
+              <span class="tooltip-text">A Temporariy Idol is an idol that isn't active for long in the industry but just wants to have the experience of being an idol (usually does idoling for about max. 1-2 years).</span>
+            </span>
+          </p>
+
+<style>
+.tooltip-container {
+  position: relative;
+  cursor: help;
+  display: inline-block;
+}
+
+.tooltip-container .tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  position: absolute;
+  bottom: 125%; 
+  left: 50%;
+  transform: translateX(-50%);
+  
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+</style>
           <select multiple id="toi" name="toi" required>
             <option value="trainee">Trainee</option>
             <option value="idol">Idol</option>
-            <option value="temp">Temporary Idol<p>A Temporariy Idol is an idol that isn't active for long in the industry but just wants to have the experience of being an idol (usually does idoling for about max. 1-2 years).<sup>?</sup></p></option>
+            <option value="temp">Temporary Idol</option>
           </select>
         </div>
       </div>
