@@ -143,7 +143,7 @@ p {
 }
 
 label {
-  font-size: 2.5rem;
+  font-size: 0.5rem;
   font-weight: bold;
 }
 
@@ -156,7 +156,7 @@ input {
   border: none;
   padding: 12px 24px;
   cursor: pointer;
-  font-size: 2.5rem;
+  font-size: 0.5rem;
 }
 
 select {
@@ -164,11 +164,11 @@ select {
   font-weight: bold;
   font-family: "Inter", sans-serif;
   color: #000000;
-  border-radius: 50px;
+  border-radius: 25px;
   border: none;
   padding: 12px 24px;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 0.5rem;
 }
 
 option {
