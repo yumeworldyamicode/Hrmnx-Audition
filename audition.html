@@ -148,61 +148,53 @@
   }
   .form-btn:hover { background-color: #fff; color: #000; }
 </style>
-
 <script>
+  // UI Branching Triggers
   const ageInput = document.getElementById('age');
   const groupYounger = document.getElementById('question-group-10-15');
   const groupOlder = document.getElementById('question-group-16-plus');
 
   ageInput.addEventListener('input', function() {
     const age = parseInt(this.value, 10);
-    groupYounger.style.display = 'none';
-    groupOlder.style.display = 'none';
-
-    if (age >= 10 && age <= 15) {
-      groupYounger.style.display = 'block';
-    } else if (age >= 16) {
-      groupOlder.style.display = 'block';
-    }
+    groupYounger.style.display = age >= 10 && age <= 15 ? 'block' : 'none';
+    groupOlder.style.display = age >= 16 ? 'block' : 'none';
   });
 
   function processAgeBranching() {
     const age = parseInt(ageInput.value, 10);
-
-    if (!age || age < 10) {
-      alert("Please enter a valid age (10 or older) before continuing.");
-      return;
-    }
-
+    if (!age || age < 10) { alert("Please enter a valid age."); return; }
+    
     document.getElementById('step-1').style.display = 'none';
-
     if (age >= 10 && age <= 15) {
       document.getElementById('step-child-account').style.display = 'block';
-    } else if (age >= 16) {
+    } else {
       document.getElementById('step-audition-videos').style.display = 'block';
     }
   }
 
-  document.getElementById('auditionApplicationForm').addEventListener('submit', function(e) {
+  // Handle Submission to backend Function
+  document.getElementById('auditionApplicationForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-
     const formData = new FormData(this);
-    let capturedAnswers = {};
+    let payload = {};
 
-    for (let [key, value] of formData.entries()) {
-      capturedAnswers[key] = value;
+    for (let [key, value] of formData.entries()) { if(value) payload[key] = value; }
+    
+    // Normalize email field based on step taken
+    payload.applicant_email = payload.email_child || payload.email_adult;
+    payload.is_child = parseInt(payload.age, 10) < 16;
+
+    // Send to Supabase Edge Function to process DB entry and email delivery safely
+    try {
+      const response = await fetch('https://supabase.co', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(response.ok) alert("Application sent successfully!");
+    } catch (err) {
+      console.error(err);
     }
-
-    if (parseInt(capturedAnswers.age, 10) < 16) {
-      capturedAnswers['profile_status'] = "Child Trainee";
-    } else {
-      capturedAnswers['profile_status'] = "Standard Trainee/Idol";
-    }
-
-    console.log("Final Saved Data:", capturedAnswers);
-
-    // TODO: Send data array backend structure or custom webhook here
-    alert("Application captured successfully!");
   });
 </script>
   </body>
