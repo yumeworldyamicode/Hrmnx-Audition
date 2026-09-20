@@ -49,7 +49,9 @@
         <hr>
       </div>
     </header>
-    <div class="au_form">
+<div class="au_form">
+  <form id="auditionApplicationForm">
+    <div id="step-1" class="form-step active-step">
       <div class="form_question_1">
         <h2 class="about_section_12">
           WHAT IS YOUR
@@ -61,43 +63,29 @@
           <label for="age">Enter your age (Minimum age is 10):</label>
           <input type="number" id="age" name="age" min="10" max="50" step="1" required>
         </div>
+        
         <div id="question-group-10-15" style="display: none; margin-top: 15px;">
           <label for="q-younger">Which <mark>idol activities</mark> will you be focusing on?</label>
           <p>For example: <mark>dancing</mark> or <mark>singing</mark> or <mark>rapping</mark>.</p>
-          <select multiple id="q-younger" name="q_younger" required>
+          <select multiple id="q-younger" name="q_younger">
             <option value="dancing">Dancing</option>
             <option value="singing">Singing</option>
-            <option value="dancing">Rapping</option>
+            <option value="rapping">Rapping</option>
           </select>
         </div>
+        
         <div id="question-group-16-plus" style="display: none; margin-top: 15px;">
           <label for="q-older">Choose between <mark>singing</mark> or <mark>rapping</mark> for your audition.</label>
           <br>
-          <select multiple id="q-older" name="q_older" required>
+          <select multiple id="q-older" name="q_older">
             <option value="singing">Singing</option>
-            <option value="dancing">Rapping</option>
+            <option value="rapping">Rapping</option>
           </select>
         </div>
-        <script>
-          const ageInput = document.getElementById('age');
-          const groupYounger = document.getElementById('question-group-10-15');
-          const groupOlder = document.getElementById('question-group-16-plus');
-
-          ageInput.addEventListener('input', function() {
-          const age = parseInt(this.value, 10);
-
-          groupYounger.style.display = 'none';
-          groupOlder.style.display = 'none';
-
-          if (age >= 10 && age <= 15) {
-            groupYounger.style.display = 'block';
-          } else if (age >= 16) {
-            groupOlder.style.display = 'block';
-            }
-          });
-        </script>
       </div>
+      
       <hr>
+      
       <div class="form_question_1">
         <h2 class="about_section_12">
           <mark>TRAINEE</mark>
@@ -113,42 +101,9 @@
             Please note that idoling works different at Hrmnx Entertainment. See the docs for more information.
             <span class="tooltip-container">
               <sup>?</sup>
-              <span class="tooltip-text">A Temporariy Idol is an idol that isn't active for long <br>in the industry but just wants to have the experience of being an idol <br>(usually does idoling for about max. 1-2 years).</span>
+              <span class="tooltip-text">A Temporary Idol is an idol that isn't active for long <br>in the industry but just wants to have the experience of being an idol <br>(usually does idoling for about max. 1-2 years).</span>
             </span>
           </p>
-
-<style>
-.tooltip-container {
-  position: relative;
-  cursor: help;
-  display: inline-block;
-}
-
-.tooltip-container .tooltip-text {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  position: absolute;
-  bottom: 125%; 
-  left: 50%;
-  transform: translateX(-50%);
-  
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 14px;
-  white-space: nowrap;
-  z-index: 1;
-}
-
-.tooltip-container:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-</style>
           <select id="toi" name="toi" required>
             <option value="trainee">Trainee</option>
             <option value="idol">Idol</option>
@@ -156,6 +111,122 @@
           </select>
         </div>
       </div>
+      <div style="margin-top: 30px; text-align: right;">
+        <button type="button" class="form-btn" onclick="processAgeBranching()">Continue</button>
+      </div>
     </div>
+    <div id="step-child-account" class="form-step" style="display: none;">
+      <div class="form_question_1">
+        <h2 class="about_section_12">CREATE <br><mark>CHILD ACCOUNT</mark></h2>
+        <hr>
+        <p>Because you are under 16, you need to set up a managed child profile. Your account profile status will automatically be set to <strong>"Child Trainee"</strong>.</p>
+        
+        <div style="margin-top: 15px;">
+          <label for="parent_email">Parent or Guardian's Email Address:</label><br>
+          <input type="email" id="parent_email" name="parent_email" placeholder="parent@example.com">
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px; text-align: right;">
+        <button type="submit" class="form-btn">Send your application</button>
+      </div>
+    </div>
+    <div id="step-audition-videos" class="form-step" style="display: none;">
+      <div class="form_question_1">
+        <h2 class="about_section_12">AUDITION <br><mark>VIDEOS</mark></h2>
+        <hr>
+        <p>Please provide direct links (Google Drive, YouTube, Vimeo) to your <strong>two required audition videos</strong>.</p>
+        
+        <div style="margin-top: 15px;">
+          <label for="video_1">Audition Video 1 Link (Performance):</label><br>
+          <input type="url" id="video_1" name="video_1" placeholder="https://youtube.com?...">
+        </div>
+        
+        <div style="margin-top: 15px;">
+          <label for="video_2">Audition Video 2 Link (Introduction):</label><br>
+          <input type="url" id="video_2" name="video_2" placeholder="https://youtube.com?...">
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px; text-align: right;">
+        <button type="submit" class="form-btn">Send your application</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+<style>
+  .tooltip-container { position: relative; cursor: help; display: inline-block; }
+  .tooltip-container .tooltip-text {
+    visibility: hidden; opacity: 0; transition: opacity 0.3s ease;
+    position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%);
+    background-color: #333; color: #fff; text-align: center;
+    padding: 6px 10px; border-radius: 4px; font-size: 14px; white-space: nowrap; z-index: 1;
+  }
+  .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+  
+  .form-btn {
+    background-color: #000; color: #fff; border: 2px solid #000;
+    padding: 10px 24px; font-weight: bold; cursor: pointer; text-transform: uppercase;
+  }
+  .form-btn:hover { background-color: #fff; color: #000; }
+</style>
+
+<script>
+  const ageInput = document.getElementById('age');
+  const groupYounger = document.getElementById('question-group-10-15');
+  const groupOlder = document.getElementById('question-group-16-plus');
+
+  ageInput.addEventListener('input', function() {
+    const age = parseInt(this.value, 10);
+    groupYounger.style.display = 'none';
+    groupOlder.style.display = 'none';
+
+    if (age >= 10 && age <= 15) {
+      groupYounger.style.display = 'block';
+    } else if (age >= 16) {
+      groupOlder.style.display = 'block';
+    }
+  });
+
+  function processAgeBranching() {
+    const age = parseInt(ageInput.value, 10);
+
+    if (!age || age < 10) {
+      alert("Please enter a valid age (10 or older) before continuing.");
+      return;
+    }
+
+    document.getElementById('step-1').style.display = 'none';
+
+    if (age >= 10 && age <= 15) {
+      document.getElementById('step-child-account').style.display = 'block';
+    } else if (age >= 16) {
+      document.getElementById('step-audition-videos').style.display = 'block';
+    }
+  }
+
+  document.getElementById('auditionApplicationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    let capturedAnswers = {};
+
+    for (let [key, value] of formData.entries()) {
+      capturedAnswers[key] = value;
+    }
+
+    if (parseInt(capturedAnswers.age, 10) < 16) {
+      capturedAnswers['profile_status'] = "Child Trainee";
+    } else {
+      capturedAnswers['profile_status'] = "Standard Trainee/Idol";
+    }
+
+    console.log("Final Saved Data:", capturedAnswers);
+
+    // TODO: Send data array backend structure or custom webhook here
+    alert("Application captured successfully!");
+  });
+</script>
   </body>
 </html>
