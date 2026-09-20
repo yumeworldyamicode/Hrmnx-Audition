@@ -53,63 +53,36 @@
   <form id="auditionApplicationForm">
     <div id="step-1" class="form-step active-step">
       <div class="form_question_1">
-        <h2 class="about_section_12">
-          WHAT IS YOUR
-          <br>
-          <mark>AGE</mark>?
-        </h2>
+        <h2 class="about_section_12">WHAT IS YOUR <br><mark>AGE</mark>?</h2>
         <hr>
         <div class="form_age_pick">
           <label for="age">Enter your age (Minimum age is 10):</label>
-          <input type="number" id="age" name="age" min="10" max="50" step="1" required>
+          <input type="number" id="age" name="age" min="10" max="50" required>
         </div>
-        
         <div id="question-group-10-15" style="display: none; margin-top: 15px;">
-          <label for="q-younger">Which <mark>idol activities</mark> will you be focusing on?</label>
-          <p>For example: <mark>dancing</mark> or <mark>singing</mark> or <mark>rapping</mark>.</p>
+          <label for="q-younger">Which <mark>idol activities</mark> will you focus on?</label>
           <select multiple id="q-younger" name="q_younger">
             <option value="dancing">Dancing</option>
             <option value="singing">Singing</option>
             <option value="rapping">Rapping</option>
           </select>
         </div>
-        
         <div id="question-group-16-plus" style="display: none; margin-top: 15px;">
-          <label for="q-older">Choose between <mark>singing</mark> or <mark>rapping</mark> for your audition.</label>
-          <br>
-          <select multiple id="q-older" name="q_older">
+          <label for="q-older">Choose your audition type:</label>
+          <select id="q-older" name="q_older">
             <option value="singing">Singing</option>
             <option value="rapping">Rapping</option>
           </select>
         </div>
       </div>
-      
       <hr>
-      
       <div class="form_question_1">
-        <h2 class="about_section_12">
-          <mark>TRAINEE</mark>
-          <br>
-          OR
-          <br>
-          <mark>IDOL</mark>?
-        </h2>
-        <hr>
-        <div class="form_toi_pick">
-          <label for="toi">Do you want to only be a trainee or also grow up to become an idol?</label>
-          <p>
-            Please note that idoling works different at Hrmnx Entertainment. See the docs for more information.
-            <span class="tooltip-container">
-              <sup>?</sup>
-              <span class="tooltip-text">A Temporary Idol is an idol that isn't active for long <br>in the industry but just wants to have the experience of being an idol <br>(usually does idoling for about max. 1-2 years).</span>
-            </span>
-          </p>
-          <select id="toi" name="toi" required>
-            <option value="trainee">Trainee</option>
-            <option value="idol">Idol</option>
-            <option value="temp">Temporary Idol</option>
-          </select>
-        </div>
+        <h2 class="about_section_12"><mark>TRAINEE</mark> OR <mark>IDOL</mark>?</h2>
+        <select id="toi" name="toi" required>
+          <option value="trainee">Trainee</option>
+          <option value="idol">Idol</option>
+          <option value="temp">Temporary Idol</option>
+        </select>
       </div>
       <div style="margin-top: 30px; text-align: right;">
         <button type="button" class="form-btn" onclick="processAgeBranching()">Continue</button>
@@ -117,16 +90,21 @@
     </div>
     <div id="step-child-account" class="form-step" style="display: none;">
       <div class="form_question_1">
-        <h2 class="about_section_12">CREATE <br><mark>CHILD ACCOUNT</mark></h2>
+        <h2 class="about_section_12">CHILD <br><mark>ACCOUNT</mark></h2>
         <hr>
-        <p>Because you are under 16, you need to set up a managed child profile. Your account profile status will automatically be set to <strong>"Child Trainee"</strong>.</p>
-        
         <div style="margin-top: 15px;">
-          <label for="parent_email">Parent or Guardian's Email Address:</label><br>
-          <input type="email" id="parent_email" name="parent_email" placeholder="parent@example.com">
+          <label for="applicant_email_child">Your Email Address:</label><br>
+          <input type="email" id="applicant_email_child" name="email_child">
+        </div>
+        <div style="margin-top: 15px;">
+          <label for="child_password">Create a Child Profile Password/PIN:</label><br>
+          <input type="password" id="child_password" name="child_password" placeholder="Min 6 characters">
+        </div>
+        <div style="margin-top: 15px;">
+          <label for="parent_email">Parent or Guardian's Email:</label><br>
+          <input type="email" id="parent_email" name="parent_email">
         </div>
       </div>
-      
       <div style="margin-top: 30px; text-align: right;">
         <button type="submit" class="form-btn">Send your application</button>
       </div>
@@ -135,24 +113,23 @@
       <div class="form_question_1">
         <h2 class="about_section_12">AUDITION <br><mark>VIDEOS</mark></h2>
         <hr>
-        <p>Please provide direct links (Google Drive, YouTube, Vimeo) to your <strong>two required audition videos</strong>.</p>
-        
         <div style="margin-top: 15px;">
-          <label for="video_1">Audition Video 1 Link (Performance):</label><br>
-          <input type="url" id="video_1" name="video_1" placeholder="https://youtube.com?...">
+          <label for="applicant_email_adult">Your Email Address:</label><br>
+          <input type="email" id="applicant_email_adult" name="email_adult">
         </div>
-        
         <div style="margin-top: 15px;">
-          <label for="video_2">Audition Video 2 Link (Introduction):</label><br>
-          <input type="url" id="video_2" name="video_2" placeholder="https://youtube.com?...">
+          <label for="video_1">Audition Video 1 Link:</label><br>
+          <input type="url" id="video_1" name="video_1">
+        </div>
+        <div style="margin-top: 15px;">
+          <label for="video_2">Audition Video 2 Link:</label><br>
+          <input type="url" id="video_2" name="video_2">
         </div>
       </div>
-      
       <div style="margin-top: 30px; text-align: right;">
         <button type="submit" class="form-btn">Send your application</button>
       </div>
     </div>
-
   </form>
 </div>
 <style>
@@ -166,7 +143,7 @@
   .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
   
   .form-btn {
-    background-color: #000; color: #fff; border: 2px solid #000;
+    background-color: #000; color: #fff; border: 2px solid #000; border-radius: 9999px;
     padding: 10px 24px; font-weight: bold; cursor: pointer; text-transform: uppercase;
   }
   .form-btn:hover { background-color: #fff; color: #000; }
