@@ -59,12 +59,12 @@
         <hr>
         <div class="form_age_pick">
           <label for="age">Enter your age (Minimum age is 10):</label>
-          <input type="number" id="age" name="age" min="10" max="120" step="1" required>
+          <input type="number" id="age" name="age" min="10" max="50" step="1" required>
         </div>
         <div id="question-group-10-15" style="display: none; margin-top: 15px;">
           <label for="q-younger">Which <mark>idol activities</mark> will you be focusing on?</label>
-          <p style="font-size: 1.5rem; font-weight: bold;">For example: <mark>dancing</mark> or <mark>singing</mark> or <mark>rapping</mark>.<br>Hold CTRL on Windows or CMD on Mac to select multiple choices.</p>
-          <select multiple id="q-younger" name="q_younger">
+          <p>For example: <mark>dancing</mark> or <mark>singing</mark> or <mark>rapping</mark>.<br>Hold CTRL on Windows or CMD on Mac to select multiple choices.</p>
+          <select multiple id="q-younger" name="q_younger" required>
             <option value="dancing">Dancing</option>
             <option value="singing">Singing</option>
             <option value="dancing">Rapping</option>
@@ -73,7 +73,7 @@
         <div id="question-group-16-plus" style="display: none; margin-top: 15px;">
           <label for="q-older">Choose between <mark>singing</mark> or <mark>rapping</mark> for your audition.</label>
           <br>
-          <select multiple id="q-older" name="q_older">
+          <select multiple id="q-older" name="q_older" required>
             <option value="singing">Singing</option>
             <option value="dancing">Rapping</option>
           </select>
@@ -100,50 +100,22 @@
       <hr>
       <div class="form_question_1">
         <h2 class="about_section_12">
-          WHAT IS YOUR
+          <mark>TRAINEE</mark>
           <br>
-          <mark>AGE</mark>?
+          OR
+          <br>
+          <mark>IDOL</mark>?
         </h2>
         <hr>
-        <div class="form_age_pick">
-          <label for="age">Enter your age (Minimum age is 10):</label>
-          <input type="number" id="age" name="age" min="10" max="120" step="1" required>
-        </div>
-        <div id="question-group-10-15" style="display: none; margin-top: 15px;">
-          <label for="q-younger">Which <mark>idol activities</mark> will you be focusing on?</label>
-          <p style="font-size: 1.5rem; font-weight: bold;">For example: <mark>dancing</mark> or <mark>singing</mark> or <mark>rapping</mark>.<br>Hold CTRL on Windows or CMD on Mac to select multiple choices.</p>
-          <select multiple id="q-younger" name="q_younger">
-            <option value="dancing">Dancing</option>
-            <option value="singing">Singing</option>
-            <option value="dancing">Rapping</option>
+        <div class="form_toi_pick">
+          <label for="toi">Do you want to only be a trainee or also grow up and become an idol?</label>
+          <p>Please note that idoling works different at Hrmnx Entertainment. See the docs for more information.</p>
+          <select multiple id="toi" name="toi" required>
+            <option value="trainee">Trainee</option>
+            <option value="idol">Idol</option>
+            <option value="temp">Temporary Idol<p>A Temporariy Idol is an idol that isn't active for long in the industry but just wants to have the experience of being an idol (usually does idoling for about max. 1-2 years).<sup>?</sup></p></option>
           </select>
         </div>
-        <div id="question-group-16-plus" style="display: none; margin-top: 15px;">
-          <label for="q-older">Choose between <mark>singing</mark> or <mark>rapping</mark> for your audition.</label>
-          <br>
-          <select multiple id="q-older" name="q_older">
-            <option value="singing">Singing</option>
-            <option value="dancing">Rapping</option>
-          </select>
-        </div>
-        <script>
-          const ageInput = document.getElementById('age');
-          const groupYounger = document.getElementById('question-group-10-15');
-          const groupOlder = document.getElementById('question-group-16-plus');
-
-          ageInput.addEventListener('input', function() {
-          const age = parseInt(this.value, 10);
-
-          groupYounger.style.display = 'none';
-          groupOlder.style.display = 'none';
-
-          if (age >= 10 && age <= 15) {
-            groupYounger.style.display = 'block';
-          } else if (age >= 16) {
-            groupOlder.style.display = 'block';
-            }
-          });
-        </script>
       </div>
     </div>
   </body>
