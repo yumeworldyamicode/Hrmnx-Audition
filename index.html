@@ -255,7 +255,7 @@
             scrollZoom: false,
             dragPan: false,
             boxZoom: false,
-            doubleClickZoom: false,
+            doubleClickZoom: true,
             dragRotate: false,
             touchZoomRotate: false
         });
@@ -263,7 +263,7 @@
     const chapters = {
         'chapter1': {
             center: [129.7152872, 33.1799965],
-            zoom: 11, bearing: 0, pitch: 0,
+            zoom: 9, bearing: 0, pitch: 0,
             profiles: [
                 { 
                     name: "Tanaka Chiyo", 
@@ -314,24 +314,23 @@
             ]
         },
         'chapter3': {
-            center: [139.6917, 35.6895], // Tokyo Center
+            center: [139.6917, 35.6895],
             zoom: 13, bearing: 90, pitch: 40,
             profiles: [
                 { 
                     name: "Kenji Sato", 
                     desc: "Cyberpunk curator tracking midnight aesthetics.",
-                    coords: [139.7016, 35.6909] // Shinjuku
+                    coords: [139.7016, 35.6909]
                 },
                 { 
                     name: "Yuki Tanaka", 
                     desc: "Vinyl record collector exploring Akihabara.",
-                    coords: [139.7715, 35.6997] // Akihabara
+                    coords: [139.7715, 35.6997]
                 }
             ]
         }
     };
 
-    // Use an array to track HTML markers globally
     let activeMarkers = [];
     let activeChapterName = 'chapter1';
 
@@ -344,7 +343,7 @@
             if (!element) continue;
             
             const rect = element.getBoundingClientRect();
-            
+
             if (rect.top >= -100 && rect.top < window.innerHeight * 0.6) {
                 if (chapterName !== activeChapterName) {
                     activeChapterName = chapterName;
@@ -353,9 +352,9 @@
                     element.classList.add('active');
                     
                     const chapterData = chapters[chapterName];
-                    
+
                     map.flyTo({
-                        center: chapterData.center,
+                        center: [chapterData.center[0], chapterData.center[1]], 
                         zoom: chapterData.zoom,
                         bearing: chapterData.bearing,
                         pitch: chapterData.pitch,
@@ -363,21 +362,14 @@
                         essential: true 
                     });
 
-                    // 1. Instantly clear out ALL previous markers from the map canvas
                     activeMarkers.forEach(marker => marker.remove());
                     activeMarkers = [];
 
-                    // 2. Loop through and spawn profiles using your exact custom coordinates
                     if (chapterData.profiles && chapterData.profiles.length > 0) {
                         chapterData.profiles.forEach(person => {
-                            
-                            // Check if coordinates exist to prevent map errors
                             if (!person.coords) return; 
 
-                            // Outer element ONLY for Mapbox tracking
                             const markerElement = document.createElement('div');
-                            
-                            // Inner element for your custom CSS animations
                             markerElement.innerHTML = `
                                 <div class="fade-in-wrapper">
                                     <div class="profile-card">
@@ -387,15 +379,13 @@
                                 </div>
                             `;
 
-                            // Initialize as an independent HTML Marker using custom coordinates
                             const newMarker = new mapboxgl.Marker({
                                 element: markerElement,
                                 anchor: 'bottom'
                             })
-                            .setLngLat(person.coords) // Reads the explicit custom coords array directly
+                            .setLngLat([person.coords[0], person.coords[1]]) 
                             .addTo(map);
 
-                            // Save to array tracker for cleanup on scroll
                             activeMarkers.push(newMarker);
                         });
                     }
