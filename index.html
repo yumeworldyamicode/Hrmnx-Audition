@@ -37,28 +37,22 @@
         }
     </style>
     <style>
-      body, html {
-          margin: 0;
-          padding: 0;
-          overflow-x: hidden;
-      }
-
       #storytelling-section {
-          position: relative; 
-          width: 100vw;
+          position: relative;
+          width: 100%;
           margin: 0;
           padding: 0;
       }
 
       #map-container {
-          position: -webkit-sticky; 
-          position: sticky;
-          top: 0;              
+          position: fixed;
+          top: 0;
+          left: 0;
           width: 100vw;
           height: 100vh;
-          z-index: 1;          
+          z-index: 1; 
       }
-      
+
       #map {
           width: 100%;
           height: 100%;
@@ -66,31 +60,33 @@
 
       #story {
           position: relative;
-          z-index: 2;        
+          z-index: 2; 
           width: 100%;
-          max-width: 500px;    
-          margin: -100vh auto 0 auto;
-          padding: 40vh 20px;    
+          max-width: 480px; 
+          margin: 0 auto; 
+          padding-top: 60vh; 
+          padding-bottom: 60vh; 
           box-sizing: border-box;
-          pointer-events: none;   
+          pointer-events: none;
       }
 
       .chapter {
-          background: rgba(20, 20, 20, 0.75);
-          color: #ffffff;           
-          padding: 30px;
-          margin-bottom: 85vh;       
-          border-radius: 8px;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-          opacity: 0.15;
-          transition: opacity 0.4s ease, transform 0.4s ease;
-          transform: scale(0.95);
-          pointer-events: auto;           
+          background: rgba(15, 15, 15, 0.85); 
+          color: #ffffff; 
+          padding: 35px 30px;
+          margin-bottom: 90vh; 
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+          opacity: 0.2;
+          transform: translateY(20px);
+          transition: opacity 0.5s ease, transform 0.5s ease;
+          pointer-events: auto; 
       }
 
       .chapter.active {
           opacity: 1;
-          transform: scale(1);
+          transform: translateY(0);
       }
     </style>
   </head>
@@ -180,6 +176,7 @@
       <br>
       <p class="narrow-text">Do you want to make <mark>our dreams come true</mark>? Then, please continue to support us and <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('buy us a coffee', '#FFFF00', 'F3G527AHKH');kofiwidget2.draw();</script>!</p>
     </div>
+    <div class="community_section">
     <div id="storytelling-section">
 
         <div id="map-container">
@@ -211,58 +208,64 @@
             center: [-74.0060, 40.7128], 
             zoom: 11
         });
-        const chapters = {
-            'chapter1': {
-                center: [-74.0060, 40.7128], // NYC
-                zoom: 11,
-                bearing: 0,
-                pitch: 0
-            },
-            'chapter2': {
-                center: [2.3522, 48.8566], // Paris
-                zoom: 12,
-                bearing: 45, // Rotates the map
-                pitch: 60    // Tilts the map for a 3D effect
-            },
-            'chapter3': {
-                center: [139.6917, 35.6895], // Tokyo
-                zoom: 14,
-                bearing: 90,
-                pitch: 30
-            }
-        };
+          const chapters = {
+              'chapter1': {
+                  center: [-74.0060, 40.7128], // NYC
+                  zoom: 12.5,           
+                  bearing: 0,
+                  pitch: 0
+              },
+              'chapter2': {
+                  center: [2.3522, 48.8566],   // Paris
+                  zoom: 14.0,           
+                  bearing: 30,
+                  pitch: 50
+              },
+              'chapter3': {
+                  center: [139.6917, 35.6895], // Tokyo
+                  zoom: 15.0,        
+                  bearing: 90,
+                  pitch: 40
+              }
+          };
 
-        let activeChapterName = 'chapter1';
+          let activeChapterName = 'chapter1';
 
-        window.onscroll = function () {
-            const chapterNames = Object.keys(chapters);
-    
-            for (let i = 0; i < chapterNames.length; i++) {
-                const chapterName = chapterNames[i];
-                const element = document.getElementById(chapterName);
+          window.addEventListener('scroll', () => {
+              const chapterNames = Object.keys(chapters);
         
-                const rect = element.getBoundingClientRect();
-                if (rect.top >= 0 && rect.top < window.innerHeight * 0.5) {
+              for (let i = 0; i < chapterNames.length; i++) {
+                  const chapterName = chapterNames[i];
+                  const element = document.getElementById(chapterName);
+                  if (!element) continue;
             
-                    if (chapterName !== activeChapterName) {
-                        activeChapterName = chapterName;
-
-                        document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
-                        element.classList.add('active');
-
-                        map.flyTo({
-                            ...chapters[chapterName],
-                            duration: 2500, 
-                            essential: true 
-                        });
-                    }
-                    break;
-                }
-            }
-        };
+                  const rect = element.getBoundingClientRect();
+            
+                  if (rect.top >= 0 && rect.top < window.innerHeight * 0.45) {
+                
+                      if (chapterName !== activeChapterName) {
+                          activeChapterName = chapterName;
+                    
+                          document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
+                          element.classList.add('active');
+                    
+                          map.flyTo({
+                              ...chapters[chapterName],
+                              duration: 3000,
+                              essential: true 
+                          });
+                      }
+                      break;
+                  }
+              }
+          });
+        
+          map.on('load', () => {
+              map.resize();
+          });
       };
     </script>
-    <div id="community_section" class="community_section">
+    <div id="community_section">
       <hr>
       <h2 class="about_section_12">
         OUR
@@ -288,7 +291,7 @@
       <br>
       <p class="narrow-text">Contact us and join Hrmnx Entertainment to help us grow or <mark>learn more</mark> <a href="https://yumeworldyamicode.github.io/Hrmnx-Audition/docs/community" style="color: #ffffff">here</a>.</p>
     </div>
-    <div id="audition_section" class="community_section">
+    <div id="audition_section">
       <hr>
       <h2 class="about_section_12">
         <mark>AUDITION</mark>
@@ -312,6 +315,7 @@
       <p class="narrow-text">There are more things you can help with, but you'll have to <b>learn more</b> to discover them.</p>
       <br>
       <p class="narrow-text">Contact us and join Hrmnx Entertainment to help us grow or <mark>learn more</mark> <a href="https://yumeworldyamicode.github.io/Hrmnx-Audition/docs/community" style="color: #ffffff">here</a>.</p>
+    </div>
     </div>
     <hr>
     <footer>
