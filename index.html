@@ -327,14 +327,13 @@
                     activePopups.forEach(popup => popup.remove());
                     activePopups = [];
 
-                    // 2. Loop through and spawn every profile in a randomized nearby spot
+                    // 2. Loop through and spawn profiles completely scattered across the globe
                     if (chapterData.profiles && chapterData.profiles.length > 0) {
                         chapterData.profiles.forEach(person => {
                             
-                            // Creates subtle offset ranges based on zoom level to ensure they land in the viewspace
-                            const range = 0.015; 
-                            const randomLng = chapterData.center[0] + (Math.random() - 0.5) * range;
-                            const randomLat = chapterData.center[1] + (Math.random() - 0.5) * range;
+                            // Generate entirely randomized coordinates spanning the entire planet
+                            const globalLng = (Math.random() * 360) - 180; // Full -180 to 180 range
+                            const globalLat = (Math.random() * 170) - 85;  // Safe -85 to 85 range
 
                             const popupHTML = `
                                 <div class="profile-card">
@@ -350,7 +349,7 @@
                                 anchor: 'bottom',
                                 offset: 25
                             })
-                            .setLngLat([randomLng, randomLat]) // Apply the randomized location coordinates
+                            .setLngLat([globalLng, globalLat]) // Sets completely random global coordinates
                             .setHTML(popupHTML)
                             .addTo(map);
 
@@ -358,6 +357,7 @@
                             activePopups.push(newPopup);
                         });
                     }
+
                 }
                 break;
             }
