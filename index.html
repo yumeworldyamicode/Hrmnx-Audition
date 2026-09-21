@@ -290,8 +290,8 @@
         }
     };
 
-    // Ensure these trackers live directly above the scroll function
-    let activePopups = [];
+    // Use an array to track HTML markers globally
+    let activeMarkers = [];
     let activeChapterName = 'chapter1';
 
     window.addEventListener('scroll', () => {
@@ -322,38 +322,38 @@
                         essential: true 
                     });
 
-                    // 1. Instantly wipe out all previous profile cards
-                    activePopups.forEach(popup => popup.remove());
-                    activePopups = [];
+                    // 1. Instantly clear out ALL previous markers from the map canvas
+                    activeMarkers.forEach(marker => marker.remove());
+                    activeMarkers = [];
 
-                    // 2. Loop through and spawn profiles cleanly across the globe
+                    // 2. Loop through and spawn profiles as distinct HTML elements across the globe
                     if (chapterData.profiles && chapterData.profiles.length > 0) {
                         chapterData.profiles.forEach(person => {
                             
-                            // Corrected Math: Spreads them randomly across the entire map coordinate grid
-                            const globalLng = (Math.random() * 360) - 180; // Valid Longitude range (-180 to 180)
-                            const globalLat = (Math.random() * 160) - 80;  // Valid Latitude range (-80 to 80)
+                            // Generate entirely randomized coordinates spanning the planet
+                            const globalLng = (Math.random() * 360) - 180; 
+                            const globalLat = (Math.random() * 160) - 80;  
 
-                            const popupHTML = `
+                            // Build a custom DOM element for the marker to isolate its CSS layout
+                            const el = document.createElement('div');
+                            el.className = 'fade-in-popup';
+                            el.innerHTML = `
                                 <div class="profile-card">
                                     <h3>${person.name}</h3>
                                     <p>${person.desc}</p>
                                 </div>
                             `;
 
-                            const newPopup = new mapboxgl.Popup({
-                                closeButton: false,
-                                closeOnClick: false,
-                                className: 'fade-in-popup',
-                                anchor: 'bottom',
-                                offset: 25
+                            // Initialize as an independent HTML Marker bound directly to the random coordinates
+                            const newMarker = new mapboxgl.Marker({
+                                element: el,
+                                anchor: 'bottom'
                             })
-                            .setLngLat([globalLng, globalLat]) // Injects the clean coordinates array
-                            .setHTML(popupHTML)
+                            .setLngLat([globalLng, globalLat])
                             .addTo(map);
 
-                            // Save to array tracker
-                            activePopups.push(newPopup);
+                            // Save to array tracker for clean deletion later
+                            activeMarkers.push(newMarker);
                         });
                     }
                 }
