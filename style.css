@@ -1,3 +1,8 @@
+* {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
 .element-class {
     scrollbar-width: none;   
     -ms-overflow-style: none;     
