@@ -262,30 +262,56 @@
       
     const chapters = {
         'chapter1': {
-            center: [-74.0060, 40.7128], // NYC
-            zoom: 12.5, bearing: 0, pitch: 0,
+            center: [-74.0060, 40.7128], // NYC Center
+            zoom: 11, bearing: 0, pitch: 0,
             profiles: [
-                { name: "Alex Rivera", desc: "Urban photographer based in Manhattan." },
-                { name: "Sarah Chen", desc: "Coffee shop critic roaming Brooklyn." },
-                { name: "Marcus Brody", desc: "Museum curator near Central Park." }
+                { 
+                    name: "Alex Rivera", 
+                    desc: "Urban photographer based in Manhattan.",
+                    coords: [-74.0060, 40.7128] // Central Manhattan
+                },
+                { 
+                    name: "Sarah Chen", 
+                    desc: "Coffee shop critic roaming Williamsburg.",
+                    coords: [-73.9570, 40.7142] // Williamsburg, Brooklyn
+                },
+                { 
+                    name: "Marcus Brody", 
+                    desc: "Museum curator working near Central Park.",
+                    coords: [-73.9654, 40.7829] // Central Park
+                }
             ]
         },
         'chapter2': {
-            center: [2.3522, 48.8566],   // Paris
-            zoom: 14.0, bearing: 30, pitch: 50,
+            center: [2.3522, 48.8566], // Paris Center
+            zoom: 12, bearing: 30, pitch: 50,
             profiles: [
-                { name: "Chloé Dubois", desc: "Catacomb historian mapping old tunnels." },
-                { name: "Pierre Laurent", desc: "Local painter sketching near Montmartre." },
-                { name: "Amélie Moreau", desc: "Pastry blogger discovering hidden cafes." }
+                { 
+                    name: "Chloé Dubois", 
+                    desc: "Catacomb historian mapping old tunnels.",
+                    coords: [2.3325, 48.8338] // Catacombs of Paris
+                },
+                { 
+                    name: "Pierre Laurent", 
+                    desc: "Local painter sketching near Montmartre.",
+                    coords: [2.3431, 48.8867] // Sacré-Cœur, Montmartre
+                }
             ]
         },
         'chapter3': {
-            center: [139.6917, 35.6895], // Tokyo
-            zoom: 15.0, bearing: 90, pitch: 40,
+            center: [139.6917, 35.6895], // Tokyo Center
+            zoom: 13, bearing: 90, pitch: 40,
             profiles: [
-                { name: "Kenji Sato", desc: "Cyberpunk curator tracking midnight aesthetics." },
-                { name: "Yuki Tanaka", desc: "Vinyl record collector exploring Akihabara." },
-                { name: "Haruto Takahashi", desc: "Street photographer based in Shibuya." }
+                { 
+                    name: "Kenji Sato", 
+                    desc: "Cyberpunk curator tracking midnight aesthetics.",
+                    coords: [139.7016, 35.6909] // Shinjuku
+                },
+                { 
+                    name: "Yuki Tanaka", 
+                    desc: "Vinyl record collector exploring Akihabara.",
+                    coords: [139.7715, 35.6997] // Akihabara
+                }
             ]
         }
     };
@@ -326,18 +352,17 @@
                     activeMarkers.forEach(marker => marker.remove());
                     activeMarkers = [];
 
-                    // 2. Loop through and spawn profiles as distinct HTML elements across the globe
+                    // 2. Loop through and spawn profiles using your exact custom coordinates
                     if (chapterData.profiles && chapterData.profiles.length > 0) {
                         chapterData.profiles.forEach(person => {
                             
-                            // Generate entirely randomized coordinates spanning the planet
-                            const globalLng = (Math.random() * 360) - 180; 
-                            const globalLat = (Math.random() * 160) - 80;  
+                            // Check if coordinates exist to prevent map errors
+                            if (!person.coords) return; 
 
-                            // Outer element ONLY for Mapbox tracking (No custom animation classes here!)
+                            // Outer element ONLY for Mapbox tracking
                             const markerElement = document.createElement('div');
                             
-                            // Inner element ONLY for your custom CSS animations
+                            // Inner element for your custom CSS animations
                             markerElement.innerHTML = `
                                 <div class="fade-in-wrapper">
                                     <div class="profile-card">
@@ -347,15 +372,15 @@
                                 </div>
                             `;
 
-                            // Initialize as an independent HTML Marker
+                            // Initialize as an independent HTML Marker using custom coordinates
                             const newMarker = new mapboxgl.Marker({
                                 element: markerElement,
                                 anchor: 'bottom'
                             })
-                            .setLngLat([globalLng, globalLat])
+                            .setLngLat(person.coords) // Reads the explicit custom coords array directly
                             .addTo(map);
 
-                            // Save to array tracker
+                            // Save to array tracker for cleanup on scroll
                             activeMarkers.push(newMarker);
                         });
                     }
