@@ -51,7 +51,7 @@
             margin: 0 0 6px 0;
             font-size: 16px;
             font-weight: 600;
-            color: #ff3366;
+            color: #FFFF00;
         }
 
         .profile-card p {
@@ -230,7 +230,7 @@
         <div id="story">
             <div id="chapter1" class="chapter active">
                 <h2>JAPAN</h2>
-                <p>We operate mainly in Japan, as our CEO lives there. We don't have an official office, though we </p>
+                <p>We operate mainly in Japan, as our CEO lives there. We don't have an official office, though we all live in different countries and all work from our own country.</p>
             </div>
             <div id="chapter2" class="chapter">
                 <h2>U.S.</h2>
@@ -238,7 +238,7 @@
             </div>
             <div id="chapter3" class="chapter">
                 <h2>BELGIUM</h2>
-                <p>Finally, we land in Tokyo, a marvelous blend of ultramodern and traditional culture.</p>
+                <p>And of course we can't forget the country of a lot of our other </p>
             </div>
         </div>
     </div>
@@ -260,41 +260,39 @@
             touchZoomRotate: false
         });
       
-          const chapters = {
-              'chapter1': {
-                  center: [-74.0060, 40.7128], // NYC
-                  zoom: 12.5,           
-                  bearing: 0,
-                  pitch: 0,
-                  profile: {
-                      name: "Alex Rivera",
-                      desc: "Local urban explorer and architectural photographer based in Manhattan."
-                  }
-              },
-              'chapter2': {
-                  center: [2.3522, 48.8566],   // Paris
-                  zoom: 14.0,           
-                  bearing: 30,
-                  pitch: 50,
-                  profile: {
-                      name: "Alex Rivera",
-                      desc: "Local urban explorer and architectural photographer based in Manhattan."
-                  }
-              },
-              'chapter3': {
-                  center: [139.6917, 35.6895], // Tokyo
-                  zoom: 15.0,        
-                  bearing: 90,
-                  pitch: 40,
-                  profile: {
-                      name: "Alex Rivera",
-                      desc: "Local urban explorer and architectural photographer based in Manhattan."
-                  }
-              }
-          };
+    const chapters = {
+        'chapter1': {
+            center: [-74.0060, 40.7128], // NYC
+            zoom: 12.5, bearing: 0, pitch: 0,
+            profiles: [
+                { name: "Alex Rivera", desc: "Urban photographer based in Manhattan." },
+                { name: "Sarah Chen", desc: "Coffee shop critic roaming Brooklyn." },
+                { name: "Marcus Brody", desc: "Museum curator near Central Park." }
+            ]
+        },
+        'chapter2': {
+            center: [2.3522, 48.8566],   // Paris
+            zoom: 14.0, bearing: 30, pitch: 50,
+            profiles: [
+                { name: "Chloé Dubois", desc: "Catacomb historian mapping old tunnels." },
+                { name: "Pierre Laurent", desc: "Local painter sketching near Montmartre." },
+                { name: "Amélie Moreau", desc: "Pastry blogger discovering hidden cafes." }
+            ]
+        },
+        'chapter3': {
+            center: [139.6917, 35.6895], // Tokyo
+            zoom: 15.0, bearing: 90, pitch: 40,
+            profiles: [
+                { name: "Kenji Sato", desc: "Cyberpunk curator tracking midnight aesthetics." },
+                { name: "Yuki Tanaka", desc: "Vinyl record collector exploring Akihabara." },
+                { name: "Haruto Takahashi", desc: "Street photographer based in Shibuya." }
+            ]
+        }
+    };
 
-    // Make sure these two trackers live right above the scroll function
-    let currentPopup = null;
+
+    // Use an array to manage wiping out multiple active people cards cleanly
+    let activePopups = [];
     let activeChapterName = 'chapter1';
 
     window.addEventListener('scroll', () => {
@@ -307,18 +305,15 @@
             
             const rect = element.getBoundingClientRect();
             
-            // Broad trigger zone (upper half of screen) ensures scroll catches reliably
             if (rect.top >= -100 && rect.top < window.innerHeight * 0.6) {
                 if (chapterName !== activeChapterName) {
                     activeChapterName = chapterName;
                     
-                    // Highlight the text card
                     document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
                     element.classList.add('active');
                     
                     const chapterData = chapters[chapterName];
                     
-                    // Fly directly to this specific chapter's unique coordinates
                     map.flyTo({
                         center: chapterData.center,
                         zoom: chapterData.zoom,
@@ -328,37 +323,47 @@
                         essential: true 
                     });
 
-                    // Remove the previous popup immediately
-                    if (currentPopup) {
-                        currentPopup.remove();
-                        currentPopup = null;
-                    }
+                    // 1. Instantly clear out ALL previous profile cards
+                    activePopups.forEach(popup => popup.remove());
+                    activePopups = [];
 
-                    // Build and attach the new profile to its unique coordinates
-                    if (chapterData.profile) {
-                        const popupHTML = `
-                            <div class="profile-card">
-                                <h3>${chapterData.profile.name}</h3>
-                                <p>${chapterData.profile.desc}</p>
-                            </div>
-                        `;
+                    // 2. Loop through and spawn every profile in a randomized nearby spot
+                    if (chapterData.profiles && chapterData.profiles.length > 0) {
+                        chapterData.profiles.forEach(person => {
+                            
+                            // Creates subtle offset ranges based on zoom level to ensure they land in the viewspace
+                            const range = 0.015; 
+                            const randomLng = chapterData.center[0] + (Math.random() - 0.5) * range;
+                            const randomLat = chapterData.center[1] + (Math.random() - 0.5) * range;
 
-                        currentPopup = new mapboxgl.Popup({
-                            closeButton: false,
-                            closeOnClick: false,
-                            className: 'fade-in-popup',
-                            anchor: 'bottom',
-                            offset: 40 
-                        })
-                        .setLngLat(chapterData.center) // Dynamically pins card to current city coordinates
-                        .setHTML(popupHTML)
-                        .addTo(map);
+                            const popupHTML = `
+                                <div class="profile-card">
+                                    <h3>${person.name}</h3>
+                                    <p>${person.desc}</p>
+                                </div>
+                            `;
+
+                            const newPopup = new mapboxgl.Popup({
+                                closeButton: false,
+                                closeOnClick: false,
+                                className: 'fade-in-popup',
+                                anchor: 'bottom',
+                                offset: 25
+                            })
+                            .setLngLat([randomLng, randomLat]) // Apply the randomized location coordinates
+                            .setHTML(popupHTML)
+                            .addTo(map);
+
+                            // Save to array tracker
+                            activePopups.push(newPopup);
+                        });
                     }
                 }
                 break;
             }
         }
     });
+
 
         
           map.on('load', () => {
