@@ -37,32 +37,39 @@
         }
     </style>
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; }
+      #storytelling-section {
+          display: flex;
+          position: relative; 
+          width: 100%;
+      }
 
-        #container { display: flex; }
+      #story {
+          width: 50%;
+          padding: 20vh 40px; 
+          box-sizing: border-box;
+      }
 
-        #map {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 50%;
-            height: 100vh;
-        }
+      .chapter {
+          margin-bottom: 70vh;
+          opacity: 0.3;
+          transition: opacity 0.3s ease;
+      }
+      .chapter.active {
+          opacity: 1;
+      }
 
-        #story {
-            width: 50%;
-            padding: 50vh 20px; 
-            box-sizing: border-box;
-        }
+      #map-container {
+          width: 50%;
+          position: relative;
+      }
 
-        .chapter {
-            margin-bottom: 80vh;
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-        }
-        .chapter.active {
-            opacity: 1;
-        }
+      #map {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0;
+          width: 100%;
+          height: 100vh; 
+      }
     </style>
   </head>
   <body style>
@@ -151,24 +158,28 @@
       <br>
       <p class="narrow-text">Do you want to make <mark>our dreams come true</mark>? Then, please continue to support us and <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('buy us a coffee', '#FFFF00', 'F3G527AHKH');kofiwidget2.draw();</script>!</p>
     </div>
-    <div id="container">
-    <!-- Left: The Narrative -->
-    <div id="story">
-        <div id="chapter1" class="chapter active">
-            <h2>1. New York City</h2>
-            <p>Our journey begins in the heart of NYC, a bustling hub of activity.</p>
+    <div id="storytelling-section">
+    
+        <!-- Left Side -->
+        <div id="story">
+            <div id="chapter1" class="chapter active">
+                <h2>1. New York City</h2>
+                <p>Our journey begins in the heart of NYC.</p>
+            </div>
+            <div id="chapter2" class="chapter">
+                <h2>2. Paris</h2>
+                <p>Next, we cross the Atlantic to visit historic Paris.</p>
+            </div>
+            <div id="chapter3" class="chapter">
+                <h2>3. Tokyo</h2>
+                <p>Finally, we land in beautiful Tokyo.</p>
+            </div>
         </div>
-        <div id="chapter2" class="chapter">
-            <h2>2. Paris</h2>
-            <p>Next, we cross the Atlantic to visit the historic streets of Paris, France.</p>
+
+        <!-- Right Side -->
+        <div id="map-container">
+            <div id="map"></div>
         </div>
-        <div id="chapter3" class="chapter">
-            <h2>3. Tokyo</h2>
-            <p>Finally, we land in Tokyo, a marvelous blend of ultramodern and traditional culture.</p>
-        </div>
-    </div>
-    <!-- Right: The Map -->
-        <div id="map"></div>
     </div>
     <script>
       window.onload = function() {
@@ -176,7 +187,7 @@
 
         const map = new mapboxgl.Map({
             container: 'map', 
-            style: 'mapbox://styles/mapbox/streets-v12',
+            style: 'mapbox://styles/osanasasaki/cmub5qi4w00bf01qs6y7p09jl',
             center: [-74.0060, 40.7128], 
             zoom: 11
         });
