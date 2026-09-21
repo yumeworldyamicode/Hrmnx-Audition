@@ -290,8 +290,7 @@
         }
     };
 
-
-    // Use an array to manage wiping out multiple active people cards cleanly
+    // Ensure these trackers live directly above the scroll function
     let activePopups = [];
     let activeChapterName = 'chapter1';
 
@@ -323,17 +322,17 @@
                         essential: true 
                     });
 
-                    // 1. Instantly clear out ALL previous profile cards
+                    // 1. Instantly wipe out all previous profile cards
                     activePopups.forEach(popup => popup.remove());
                     activePopups = [];
 
-                    // 2. Loop through and spawn profiles completely scattered across the globe
+                    // 2. Loop through and spawn profiles cleanly across the globe
                     if (chapterData.profiles && chapterData.profiles.length > 0) {
                         chapterData.profiles.forEach(person => {
                             
-                            // Generate entirely randomized coordinates spanning the entire planet
-                            const globalLng = (Math.random() * 360) - 180; // Full -180 to 180 range
-                            const globalLat = (Math.random() * 170) - 85;  // Safe -85 to 85 range
+                            // Corrected Math: Spreads them randomly across the entire map coordinate grid
+                            const globalLng = (Math.random() * 360) - 180; // Valid Longitude range (-180 to 180)
+                            const globalLat = (Math.random() * 160) - 80;  // Valid Latitude range (-80 to 80)
 
                             const popupHTML = `
                                 <div class="profile-card">
@@ -349,7 +348,7 @@
                                 anchor: 'bottom',
                                 offset: 25
                             })
-                            .setLngLat([globalLng, globalLat]) // Sets completely random global coordinates
+                            .setLngLat([globalLng, globalLat]) // Injects the clean coordinates array
                             .setHTML(popupHTML)
                             .addTo(map);
 
@@ -357,14 +356,11 @@
                             activePopups.push(newPopup);
                         });
                     }
-
                 }
                 break;
             }
         }
     });
-
-
         
           map.on('load', () => {
               map.resize();
