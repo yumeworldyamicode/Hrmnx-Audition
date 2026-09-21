@@ -7,6 +7,10 @@ mark {
     border-radius: 4px;
 }
 
+h2 mark {
+    border-radius: 10px;
+}
+
 .element-class {
     scrollbar-width: none;   
     -ms-overflow-style: none;     
