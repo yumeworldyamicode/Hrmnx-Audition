@@ -19,6 +19,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
     <link rel="stylesheet" href="style.css">
+    <link href="https://mapbox.com" rel="stylesheet" />
+    <script src="https://mapbox.com"></script>
     <style>
         html, body {
             margin: 0;
@@ -32,6 +34,34 @@
             
             align-items: center;  
             text-align: center;    
+        }
+    </style>
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; }
+
+        #container { display: flex; }
+
+        #map {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100vh;
+        }
+
+        #story {
+            width: 50%;
+            padding: 50vh 20px; 
+            box-sizing: border-box;
+        }
+
+        .chapter {
+            margin-bottom: 80vh;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+        .chapter.active {
+            opacity: 1;
         }
     </style>
   </head>
@@ -121,6 +151,91 @@
       <br>
       <p class="narrow-text">Do you want to make <mark>our dreams come true</mark>? Then, please continue to support us and <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('buy us a coffee', '#FFFF00', 'F3G527AHKH');kofiwidget2.draw();</script>!</p>
     </div>
+    <div id="container">
+    <!-- Left: The Narrative -->
+    <div id="story">
+        <div id="chapter1" class="chapter active">
+            <h2>1. New York City</h2>
+            <p>Our journey begins in the heart of NYC, a bustling hub of activity.</p>
+        </div>
+        <div id="chapter2" class="chapter">
+            <h2>2. Paris</h2>
+            <p>Next, we cross the Atlantic to visit the historic streets of Paris, France.</p>
+        </div>
+        <div id="chapter3" class="chapter">
+            <h2>3. Tokyo</h2>
+            <p>Finally, we land in Tokyo, a marvelous blend of ultramodern and traditional culture.</p>
+        </div>
+    </div>
+    <!-- Right: The Map -->
+        <div id="map"></div>
+    </div>
+    <script>
+      // TO MAKE THE MAP APPEAR, REPLACE WITH YOUR ACTUAL ACCESS TOKEN
+      mapboxgl.accessToken = 'pk.eyJ1Ijoib3NhbmFzYXNha2kiLCJhIjoiY211YjVrOTdpMDJzaTJ3c2htOG5weHowOSJ9.CDzCHH2h602i2mCLQNEBSw';
+
+      const map = new mapboxgl.Map({
+          container: 'map', 
+          style: 'mapbox://styles/mapbox/streets-v12', // Mapbox style URL
+          center: [-74.0060, 40.7128], // Starting coordinates [lng, lat]
+          zoom: 11
+      });
+      // 1. Define your camera settings for each chapter ID
+      const chapters = {
+          'chapter1': {
+              center: [-74.0060, 40.7128], // NYC
+              zoom: 11,
+              bearing: 0,
+              pitch: 0
+          },
+          'chapter2': {
+              center: [2.3522, 48.8566], // Paris
+              zoom: 12,
+              bearing: 45, // Rotates the map
+              pitch: 60    // Tilts the map for a 3D effect
+          },
+          'chapter3': {
+              center: [139.6917, 35.6895], // Tokyo
+              zoom: 14,
+              bearing: 90,
+              pitch: 30
+          }
+      };
+
+      // 2. Track scrolling and trigger the camera moves
+      let activeChapterName = 'chapter1';
+
+      window.onscroll = function () {
+          const chapterNames = Object.keys(chapters);
+    
+          for (let i = 0; i < chapterNames.length; i++) {
+              const chapterName = chapterNames[i];
+              const element = document.getElementById(chapterName);
+        
+              // Check if the chapter element is near the top half of the screen
+              const rect = element.getBoundingClientRect();
+              if (rect.top >= 0 && rect.top < window.innerHeight * 0.5) {
+            
+                  // If it enters the trigger zone and isn't already active...
+                  if (chapterName !== activeChapterName) {
+                      activeChapterName = chapterName;
+                      
+                      // Highlight the active text block
+                      document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
+                      element.classList.add('active');
+                      
+                      // Fly the map smoothly to the target position
+                      map.flyTo({
+                          ...chapters[chapterName],
+                          duration: 2500, // Animation speed in milliseconds
+                          essential: true // Ensures the animation runs even if the user prefers reduced motion
+                      });
+                  }
+                  break;
+              }
+          }
+      };
+    </script>
     <div id="community_section" class="community_section">
       <hr>
       <h2 class="about_section_12">
