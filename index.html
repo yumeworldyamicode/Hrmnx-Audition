@@ -71,20 +71,20 @@
             border-top-color: #1a1a1a !important;
         }
 
-        .fade-in-popup {
-            animation: popupFadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
+.fade-in-wrapper {
+    animation: markerFadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
 
-        @keyframes popupFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+@keyframes markerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
       #storytelling-section {
           position: relative; 
@@ -334,25 +334,28 @@
                             const globalLng = (Math.random() * 360) - 180; 
                             const globalLat = (Math.random() * 160) - 80;  
 
-                            // Build a custom DOM element for the marker to isolate its CSS layout
-                            const el = document.createElement('div');
-                            el.className = 'fade-in-popup';
-                            el.innerHTML = `
-                                <div class="profile-card">
-                                    <h3>${person.name}</h3>
-                                    <p>${person.desc}</p>
+                            // Outer element ONLY for Mapbox tracking (No custom animation classes here!)
+                            const markerElement = document.createElement('div');
+                            
+                            // Inner element ONLY for your custom CSS animations
+                            markerElement.innerHTML = `
+                                <div class="fade-in-wrapper">
+                                    <div class="profile-card">
+                                        <h3>${person.name}</h3>
+                                        <p>${person.desc}</p>
+                                    </div>
                                 </div>
                             `;
 
-                            // Initialize as an independent HTML Marker bound directly to the random coordinates
+                            // Initialize as an independent HTML Marker
                             const newMarker = new mapboxgl.Marker({
-                                element: el,
+                                element: markerElement,
                                 anchor: 'bottom'
                             })
                             .setLngLat([globalLng, globalLat])
                             .addTo(map);
 
-                            // Save to array tracker for clean deletion later
+                            // Save to array tracker
                             activeMarkers.push(newMarker);
                         });
                     }
