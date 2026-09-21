@@ -293,62 +293,73 @@
               }
           };
 
-          let activeChapterName = 'chapter1';
-          let currentPopup = null;
+    // Make sure these two trackers live right above the scroll function
+    let currentPopup = null;
+    let activeChapterName = 'chapter1';
 
-          window.addEventListener('scroll', () => {
-              const chapterNames = Object.keys(chapters);
+    window.addEventListener('scroll', () => {
+        const chapterNames = Object.keys(chapters);
         
-              for (let i = 0; i < chapterNames.length; i++) {
-                  const chapterName = chapterNames[i];
-                  const element = document.getElementById(chapterName);
-                  if (!element) continue;
+        for (let i = 0; i < chapterNames.length; i++) {
+            const chapterName = chapterNames[i];
+            const element = document.getElementById(chapterName);
+            if (!element) continue;
             
-                  const rect = element.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
             
-                  if (rect.top >= 0 && rect.top < window.innerHeight * 0.5) {
-                      if (chapterName !== activeChapterName) {
-                          activeChapterName = chapterName;
-
-                          document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
-                          element.classList.add('active');
+            // Broad trigger zone (upper half of screen) ensures scroll catches reliably
+            if (rect.top >= -100 && rect.top < window.innerHeight * 0.6) {
+                if (chapterName !== activeChapterName) {
+                    activeChapterName = chapterName;
                     
-                          map.flyTo({
-                              ...chapters[chapterName],
-                              duration: 3000,
-                              essential: true 
-                          });
+                    // Highlight the text card
+                    document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
+                    element.classList.add('active');
+                    
+                    const chapterData = chapters[chapterName];
+                    
+                    // Fly directly to this specific chapter's unique coordinates
+                    map.flyTo({
+                        center: chapterData.center,
+                        zoom: chapterData.zoom,
+                        bearing: chapterData.bearing,
+                        pitch: chapterData.pitch,
+                        duration: 2800,
+                        essential: true 
+                    });
 
-                          if (currentPopup) {
-                              currentPopup.remove();
-                          }
+                    // Remove the previous popup immediately
+                    if (currentPopup) {
+                        currentPopup.remove();
+                        currentPopup = null;
+                    }
 
-                          const chapterData = chapters[chapterName];
-                          if (chapterData.profile) {
-                        
-                              const popupHTML = `
-                                  <div class="profile-card">
-                                      <h3>${chapterData.profile.name}</h3>
-                                      <p>${chapterData.profile.desc}</p>
-                                  </div>
-                              `;
+                    // Build and attach the new profile to its unique coordinates
+                    if (chapterData.profile) {
+                        const popupHTML = `
+                            <div class="profile-card">
+                                <h3>${chapterData.profile.name}</h3>
+                                <p>${chapterData.profile.desc}</p>
+                            </div>
+                        `;
 
-                              currentPopup = new mapboxgl.Popup({
-                                  closeButton: false, 
-                                  closeOnClick: false,
-                                  className: 'fade-in-popup', 
-                                  anchor: 'bottom',
-                                  offset: 40 
-                              })
-                              .setLngLat(chapterData.center)
-                              .setHTML(popupHTML)
-                              .addTo(map);
-                          }
-                      }
-                      break;
-                  }
-              }
-          });
+                        currentPopup = new mapboxgl.Popup({
+                            closeButton: false,
+                            closeOnClick: false,
+                            className: 'fade-in-popup',
+                            anchor: 'bottom',
+                            offset: 40 
+                        })
+                        .setLngLat(chapterData.center) // Dynamically pins card to current city coordinates
+                        .setHTML(popupHTML)
+                        .addTo(map);
+                    }
+                }
+                break;
+            }
+        }
+    });
+
         
           map.on('load', () => {
               map.resize();
