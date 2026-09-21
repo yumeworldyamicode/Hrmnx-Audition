@@ -3,6 +3,10 @@
     margin-bottom: 18px;
 }
 
+mark {
+    border-radius: 4px;
+}
+
 .element-class {
     scrollbar-width: none;   
     -ms-overflow-style: none;     
