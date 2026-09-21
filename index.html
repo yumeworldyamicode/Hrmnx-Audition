@@ -37,6 +37,55 @@
         }
     </style>
     <style>
+      .profile-card {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            max-width: 220px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        .profile-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ff3366;
+        }
+
+        .profile-card p {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #cccccc;
+        }
+      
+        .mapboxgl-popup-content {
+            background: transparent !important; 
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+
+        .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+            border-top-color: #1a1a1a !important;
+        }
+
+        .fade-in-popup {
+            animation: popupFadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes popupFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
       #storytelling-section {
           position: relative; 
           width: 100%;
@@ -180,15 +229,15 @@
         </div>
         <div id="story">
             <div id="chapter1" class="chapter active">
-                <h2>1. New York City</h2>
-                <p>Our journey begins in the heart of NYC, a bustling hub of activity.</p>
+                <h2>JAPAN</h2>
+                <p>We operate mainly in Japan, as our CEO lives there. We don't have an official office, though we </p>
             </div>
             <div id="chapter2" class="chapter">
-                <h2>2. Paris</h2>
-                <p>Next, we cross the Atlantic to visit the historic streets of Paris, France.</p>
+                <h2>U.S.</h2>
+                <p>We also partly operate in the U.S., our founder lives there. She works from home.</p>
             </div>
             <div id="chapter3" class="chapter">
-                <h2>3. Tokyo</h2>
+                <h2>BELGIUM</h2>
                 <p>Finally, we land in Tokyo, a marvelous blend of ultramodern and traditional culture.</p>
             </div>
         </div>
@@ -217,22 +266,35 @@
                   zoom: 12.5,           
                   bearing: 0,
                   pitch: 0
+                  profile: {
+                      name: "Alex Rivera",
+                      desc: "Local urban explorer and architectural photographer based in Manhattan."
+                  }
               },
               'chapter2': {
                   center: [2.3522, 48.8566],   // Paris
                   zoom: 14.0,           
                   bearing: 30,
                   pitch: 50
+                  profile: {
+                      name: "Alex Rivera",
+                      desc: "Local urban explorer and architectural photographer based in Manhattan."
+                  }
               },
               'chapter3': {
                   center: [139.6917, 35.6895], // Tokyo
                   zoom: 15.0,        
                   bearing: 90,
                   pitch: 40
+                  profile: {
+                      name: "Alex Rivera",
+                      desc: "Local urban explorer and architectural photographer based in Manhattan."
+                  }
               }
           };
 
           let activeChapterName = 'chapter1';
+          let currentPopup = null;
 
           window.addEventListener('scroll', () => {
               const chapterNames = Object.keys(chapters);
@@ -244,11 +306,10 @@
             
                   const rect = element.getBoundingClientRect();
             
-                  if (rect.top >= 0 && rect.top < window.innerHeight * 0.45) {
-                
+                  if (rect.top >= 0 && rect.top < window.innerHeight * 0.5) {
                       if (chapterName !== activeChapterName) {
                           activeChapterName = chapterName;
-                    
+
                           document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
                           element.classList.add('active');
                     
@@ -257,6 +318,32 @@
                               duration: 3000,
                               essential: true 
                           });
+
+                          if (currentPopup) {
+                              currentPopup.remove();
+                          }
+
+                          const chapterData = chapters[chapterName];
+                          if (chapterData.profile) {
+                        
+                              const popupHTML = `
+                                  <div class="profile-card">
+                                      <h3>${chapterData.profile.name}</h3>
+                                      <p>${chapterData.profile.desc}</p>
+                                  </div>
+                              `;
+
+                              currentPopup = new mapboxgl.Popup({
+                                  closeButton: false, 
+                                  closeOnClick: false,
+                                  className: 'fade-in-popup', 
+                                  anchor: 'bottom',
+                                  offset: 40 
+                              })
+                              .setLngLat(chapterData.center)
+                              .setHTML(popupHTML)
+                              .addTo(map);
+                          }
                       }
                       break;
                   }
